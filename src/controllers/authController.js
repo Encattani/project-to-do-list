@@ -1,9 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
-const {
-  userSchemaRegister,
-} = require("../utils/validationSchemas");
+const { userSchemaRegister } = require("../utils/validationSchemas");
 
 exports.register = async (req, res) => {
   const { error } = userSchemaRegister.validate(req.body);
@@ -30,16 +28,16 @@ exports.login = async (req, res) => {
     const user = await User.findOne({ email });
     if (!user)
       return res.status(404).json({ message: "Usuário não enontrado." });
-    
-    const isPasswordValid = await bcrypt.compare("test123", user.password);
-    console.log(isPasswordValid);    
+
+    const isPasswordValid = bcrypt.compare("test123", user.password);
 
     if (!isPasswordValid)
       return res.status(400).json({ message: "Credenciais inválidas." });
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
-    return res.status(200).json({ token });
+    const response = res.setHeader('Authorization', token).status(200).send({ msg: "Succesful Login!" });
+    return res.status(200).json({ response });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
