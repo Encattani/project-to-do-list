@@ -33,11 +33,15 @@ exports.login = async (req, res) => {
 
     if (!isPasswordValid)
       return res.status(400).json({ message: "Credenciais inválidas." });
+
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
-    const response = res.setHeader('Authorization', token).status(200).send({ msg: "Succesful Login!" });
-    return res.status(200).json({ response });
+
+    return res
+      .setHeader("Authorization", token)
+      .status(200)
+      .send({ msg: "Succesful Login!" });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
