@@ -18,7 +18,7 @@ exports.register = async (req, res) => {
 
     return res.status(201).json({ message: "Usuário registrado com sucesso!" });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 
@@ -29,7 +29,7 @@ exports.login = async (req, res) => {
     if (!user)
       return res.status(404).json({ message: "Usuário não enontrado." });
 
-    const isPasswordValid = bcrypt.compare(password, user.password);
+    const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid)
       return res.status(400).json({ message: "Credenciais inválidas." });
