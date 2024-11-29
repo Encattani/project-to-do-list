@@ -1,6 +1,6 @@
 const Joi = require("joi");
 
-const userSchema = Joi.object({
+const userSchemaRegister = Joi.object({
   name: Joi.string().min(3).max(100).required(),
   email: Joi.string().email().required(),
   password: Joi.string().min(6).required(),
@@ -12,4 +12,4 @@ const taskSchema = Joi.object({
   status: Joi.bool().optional(),
 });
 
-module.exports = { userSchema, taskSchema };
+module.exports = { userSchemaRegister, taskSchema };
