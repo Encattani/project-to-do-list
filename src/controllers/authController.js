@@ -29,7 +29,7 @@ exports.login = async (req, res) => {
     if (!user)
       return res.status(404).json({ message: "Usuário não enontrado." });
 
-    const isPasswordValid = bcrypt.compare("test123", user.password);
+    const isPasswordValid = bcrypt.compare(password, user.password);
 
     if (!isPasswordValid)
       return res.status(400).json({ message: "Credenciais inválidas." });
