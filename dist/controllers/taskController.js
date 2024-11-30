@@ -1,78 +1,105 @@
 const Task = require("../models/Task");
+const { taskSchema, updateTaskSchema } = require("../utils/validationSchemas");
+
 exports.createTask = async (req, res) => {
+  const { error } = taskSchema.validate(req.body, { abortEarly: false });
+  if (error) {
+    const validationErrors = error.details.map((err) => err.message);
+    return res.status(400).json({
+      message: "Erro na validação dos dados.",
+      errors: validationErrors,
+    });
+  }
+
   try {
-    const {
-      title,
-      description
-    } = req.body;
+    const { title, description } = req.body;
     const task = new Task({
       title,
       description,
-      user: req.user.id
+      status: false,
+      user: req.user.id,
     });
     await task.save();
-    res.status(201).send(task);
+    return res.status(201).json(task);
   } catch (error) {
-    res.status(400).send({
-      error: error.message
+    return res.status(500).json({
+      message: "Erro ao criar a tarefa.",
+      error: error.message,
     });
   }
 };
-exports.updateTask = async (req, res) => {
-  try {
-    const {
-      id
-    } = req.params;
-    const updates = {
-      ...req.body,
-      updatedAt: Date.now()
-    };
-    const task = await Task.findOneAndUpdate({
-      _id: id,
-      user: req.user.id
-    }, updates, {
-      new: true
-    });
-    if (!task) return res.status(404).send({
-      message: "Tarefa não encontrada!"
-    });
-    res.send(task);
-  } catch (error) {
-    res.status(400).send({
-      error: error.message
-    });
-  }
-};
-exports.deleteTask = async (req, res) => {
-  try {
-    const {
-      id
-    } = req.params;
-    const task = await Task.findByIdAndDelete({
-      _id: id,
-      usuario: req.user.id
-    });
-    if (!task) return res.status(404).send({
-      message: "Tarefa não encontrada"
-    });
-    res.send({
-      message: "Tarefa removida com sucesso!"
-    });
-  } catch (error) {
-    res.status(400).send({
-      error: error
-    });
-  }
-};
+
 exports.getTasks = async (req, res) => {
   try {
-    const tasks = await Task.find({
-      user: req.user.id
-    });
-    res.send(tasks);
+    const tasks = await Task.find({ user: req.user.id });
+    console.log('auu')
+    if (tasks.length === 0) {
+      return res.status(200).json({
+        message: "A lista de tarefas está vazia.",
+      });
+    }
+    return res.status(200).json(tasks);
   } catch (error) {
-    res.status(400).send({
-      error: error.message
+    return res.status(500).json({
+      message: "Erro ao buscar as tarefas.",
+      error: error.message,
+    });
+  }
+};
+
+exports.updateTask = async (req, res) => {
+  const { error } = updateTaskSchema.validate(req.body, { abortEarly: false });
+  if (error) {
+    const validationErrors = error.details.map((err) => err.message);
+    return res.status(400).json({
+      message: "Erro na validação dos dados.",
+      errors: validationErrors,
+    });
+  }
+
+  try {
+    const { id } = req.params;
+    const updates = {
+      ...req.body,
+      updatedAt: new Date(),
+    };
+
+    const task = await Task.findOneAndUpdate(
+      { _id: id, user: req.user.id },
+      updates,
+      { new: true }
+    );
+
+    if (!task) {
+      return res.status(404).json({ message: "Tarefa não encontrada." });
+    }
+
+    return res.status(200).json({
+      message: "Tarefa atualizada com sucesso!",
+      task,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Erro ao atualizar a tarefa.",
+      error: error.message,
+    });
+  }
+};
+
+exports.deleteTask = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const task = await Task.findOneAndDelete({ _id: id, user: req.user.id });
+
+    if (!task) {
+      return res.status(404).json({ message: "Tarefa não encontrada." });
+    }
+
+    return res.status(204).send();
+  } catch (error) {
+    return res.status(500).json({
+      message: "Erro ao excluir a tarefa.",
+      error: error.message,
     });
   }
 };
