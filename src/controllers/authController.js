@@ -37,11 +37,11 @@ exports.login = async (req, res) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
-
+    
     return res
       .setHeader("Authorization", token)
       .status(200)
-      .send({ msg: "Succesful Login!" });
+      .send({ msg: "Login realizado com sucesso" });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

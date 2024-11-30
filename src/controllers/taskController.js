@@ -39,7 +39,7 @@ exports.deleteTask = async (req, res) => {
       return res.status(404).send({ message: "Tarefa não encontrada" });
     res.send({ message: "Tarefa removida com sucesso!" });
   } catch (error) {
-    res.status(400).send({ error: error.message });
+    res.status(400).send({ error: error });
   }
 };
 
