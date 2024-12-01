@@ -4,8 +4,14 @@ const User = require("../models/User");
 const { userSchemaRegister } = require("../utils/validationSchemas");
 
 exports.register = async (req, res) => {
-  const { error } = userSchemaRegister.validate(req.body);
-  if (error) return res.status(400).json({ message: error.details[0].message });
+  const { error } = userSchemaRegister.validate(req.body, {abortEarly: false});
+  if (error) {
+    const validationErrors = error.details.map((err) => err.message);
+    return res.status(400).json({
+      message: "Erro na validação dos dados.",
+      errors: validationErrors,
+    });
+  }
   const { name, email, password } = req.body;
   try {
     const userExists = await User.findOne({ email });
@@ -37,7 +43,7 @@ exports.login = async (req, res) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
-    
+
     return res
       .setHeader("Authorization", token)
       .status(200)
