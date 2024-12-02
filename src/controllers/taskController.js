@@ -97,7 +97,7 @@ exports.deleteTask = async (req, res) => {
       return res.status(404).json({ message: "Tarefa não encontrada." });
     }
 
-    return res.status(204).send();
+    return res.status(200).json({ message: "Tarefa deletada com sucesso." });
   } catch (error) {
     return res.status(500).json({
       message: "Erro ao excluir a tarefa.",
