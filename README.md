@@ -28,7 +28,7 @@ Outras Ferramentas e depêndencias:
 - **mongoose**: ODM (Object Data Modeling) para manipular o banco de dados MongoDB.
 - **dotenv**: Carrega variáveis de ambiente de um arquivo .env.
 - **cors**: Middleware para lidar com CORS (Cross-Origin Resource Sharing).
-- **body-parser**: Analisa o corpo das requisições HTTP.
+- **body-parser**: Analisa o corpo das requisições HTTP (incorporado ao Express nas versões recentes, mas ainda útil em alguns casos).
 - **joi:** Biblioteca para validação de dados.
 ## Como Rodar o Projeto:
 
@@ -72,9 +72,9 @@ Para rodar esse projeto, você vai precisar adicionar as seguintes variáveis de
 
 #### Registra um usuário
 
+POST
 ```http
-  POST https://project-to-do-list.onrender.com/auth/register
-  
+ https://project-to-do-list.onrender.com/auth/register  
 ```
 
 | Parâmetro   | Tipo       | Descrição                           |
@@ -85,8 +85,9 @@ Para rodar esse projeto, você vai precisar adicionar as seguintes variáveis de
 
 
 #### Faz o login do usuário
+POST
 ```http
-  POST https://project-to-do-list.onrender.com/auth/login
+https://project-to-do-list.onrender.com/auth/login
 ```
 
 | Parâmetro   | Tipo       | Descrição                                   |
@@ -96,14 +97,14 @@ Para rodar esse projeto, você vai precisar adicionar as seguintes variáveis de
 
 
 #### Retorna as tarefas de acordo com o Id vinculado ao Token fornecido
+GET
 ```http
-  GET https://project-to-do-list.onrender.com/task/getTasks
-
+https://project-to-do-list.onrender.com/task/getTasks
 ```
 #### Cria a tarefa e vincula ao Id do usuário logado
-
+POST
 ```http
-  POST https://project-to-do-list.onrender.com/task/
+https://project-to-do-list.onrender.com/task/
   ```
 | Parâmetro   | Tipo       | Descrição                                   |
 | :---------- | :--------- | :------------------------------------------ |
@@ -112,27 +113,24 @@ Para rodar esse projeto, você vai precisar adicionar as seguintes variáveis de
 | `status`      | `boolean` | **Obrigatório**.|
 
 #### Deleta a tarefa de acordo com o parâmetro de Id e com Id de usuário vinculado ao Token fornecido
-
+DELETE
 ```http
-  DELETE https://project-to-do-list.onrender.com/task/delete/:id
+  https://project-to-do-list.onrender.com/task/delete/:id
   ```
 | Parâmetro   | Tipo       | Descrição                                   |
 | :---------- | :--------- | :------------------------------------------ |
 | `id`      | `ObjectId` | **Obrigatório**.|
 
 #### Altera a tarefa vinculada ao Id do usuário logado
-
+UPDATE
 ```http
-  POST https://project-to-do-list.onrender.com/task/update/:id
+  https://project-to-do-list.onrender.com/task/update/:id
   ```
 | Parâmetro   | Tipo       | Descrição                                   |
 | :---------- | :--------- | :------------------------------------------ |
 | `title`      | `string` | **Obrigatório**.|
 | `desccription`      | `string` | **Obrigatório**.|
 | `status`      | `boolean` | **Obrigatório**.|
-
-
-
 
 
 
