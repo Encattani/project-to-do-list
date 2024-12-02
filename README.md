@@ -28,7 +28,7 @@ Outras Ferramentas e depêndencias:
 - **mongoose**: ODM (Object Data Modeling) para manipular o banco de dados MongoDB.
 - **dotenv**: Carrega variáveis de ambiente de um arquivo .env.
 - **cors**: Middleware para lidar com CORS (Cross-Origin Resource Sharing).
-- **body-parser**: Analisa o corpo das requisições HTTP (incorporado ao Express nas versões recentes, mas ainda útil em alguns casos).
+- **body-parser**: Analisa o corpo das requisições HTTP.
 - **joi:** Biblioteca para validação de dados.
 ## Como Rodar o Projeto:
 
