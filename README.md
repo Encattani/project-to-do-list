@@ -64,3 +64,77 @@ Para rodar esse projeto, você vai precisar adicionar as seguintes variáveis de
 `JWT_SECRET`=*seu_token_exemplo*
 
 `DB_URI`=*link_do_banco*
+
+
+## Documentação da API
+
+**Utilize o Insomnia ou Postman para fazer requisições.**
+
+#### Registra um usuário
+
+```http
+  POST https://project-to-do-list.onrender.com/auth/register
+  
+```
+
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `name` | `string` | **Obrigatório**. |
+| `email` | `string` | **Obrigatório**. |
+| `password` | `string` | **Obrigatório**.
+
+
+#### Faz o login do usuário
+```http
+  POST https://project-to-do-list.onrender.com/auth/login
+```
+
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `email`      | `string` | **Obrigatório**.|
+| `password`      | `string` | **Obrigatório**. |
+
+
+#### Retorna as tarefas de acordo com o Id vinculado ao Token fornecido
+```http
+  GET https://project-to-do-list.onrender.com/task/getTasks
+
+```
+#### Cria a tarefa e vincula ao Id do usuário logado
+
+```http
+  POST https://project-to-do-list.onrender.com/task/
+  ```
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `title`      | `string` | **Obrigatório**.|
+| `desccription`      | `string` | **Obrigatório**.|
+| `status`      | `boolean` | **Obrigatório**.|
+
+#### Deleta a tarefa de acordo com o parâmetro de Id e com Id de usuário vinculado ao Token fornecido
+
+```http
+  DELETE https://project-to-do-list.onrender.com/task/delete/:id
+  ```
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `id`      | `ObjectId` | **Obrigatório**.|
+
+#### Altera a tarefa vinculada ao Id do usuário logado
+
+```http
+  POST https://project-to-do-list.onrender.com/task/update/:id
+  ```
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `title`      | `string` | **Obrigatório**.|
+| `desccription`      | `string` | **Obrigatório**.|
+| `status`      | `boolean` | **Obrigatório**.|
+
+
+
+
+
+
+
+
